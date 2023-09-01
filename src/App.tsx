@@ -1,26 +1,33 @@
-
 import './App.css'
-import {useRef} from "react";
-import {Autocomplete, LoadScript} from "@react-google-maps/api";
-import {Map} from "./components/Map";
+import {useRef, useState} from "react";
+import {LoadScript} from "@react-google-maps/api";
+import {Map, MarkerType} from "./components/Map";
+import {MapInput} from "./components/MapInput";
 
 const google_api = "AIzaSyD7u-mIFJZVbQ-20sNfrABECqJbgTvNxr8";
 
 function App() {
-  const inputRef = useRef<any>(null);
+    const [visitedPlaces, setVisitedPlaces] = useState<Array<MarkerType>>([]);
 
-  const handlePlaceChanged = () => {
-    console.log(inputRef.current.value);
-  };
+    const inputRef = useRef<any>(null);
 
-  return (
-      <LoadScript googleMapsApiKey={google_api} libraries={["places"]}>
-        <Autocomplete onPlaceChanged={handlePlaceChanged} restrictions={{ country: "au" }}>
-            <input type="text" ref={inputRef}/>
-        </Autocomplete>
-        <Map />
-      </LoadScript>
-  );
+    const handlePlaceChanged = () => {
+
+        const place = inputRef.current.getPlace()
+        if (place) {
+            setVisitedPlaces(prevState => [...prevState, {
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+            }])
+        }
+    };
+
+    return (
+        <LoadScript googleMapsApiKey={google_api} libraries={["places"]}>
+            <MapInput inputRef={inputRef} onPlaceChanged={handlePlaceChanged}/>
+            <Map markers={visitedPlaces}/>
+        </LoadScript>
+    );
 }
 
 export default App
