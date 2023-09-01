@@ -21,7 +21,7 @@ export const MapInput = ({
                               restrictions={{country: "au"}}
                               onLoad={(ref) => inputRef.current = ref}>
                     <TextField fullWidth size={'small'}
-                               placeholder="Add Location"
+                               placeholder="Chose location"
                                id="standard-basic"
                                variant="standard"/>
                 </Autocomplete>

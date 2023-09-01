@@ -4,7 +4,8 @@ import {GoogleMap, MarkerF} from "@react-google-maps/api";
 const defaultCenter = {lat: -33, lng: 151}
 export type MarkerType = { lat: number, lng: number }
 
-export const Map = ({markers}: { markers: Array<MarkerType> }) => {
+export const Map = ({markers}: { markers: Array<MarkerType>}) => {
+
     return (
         <GoogleMap
             mapContainerClassName='w-full h-full'
@@ -23,7 +24,7 @@ export const Map = ({markers}: { markers: Array<MarkerType> }) => {
             }}>
             {markers.map((marker) => {
                 return <MarkerF
-                    key={marker}
+                    key={marker.lat}
                     position={marker}
                 >
                 </MarkerF>
